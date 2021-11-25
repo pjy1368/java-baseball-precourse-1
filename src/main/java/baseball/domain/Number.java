@@ -1,5 +1,8 @@
 package baseball.domain;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Number {
 
     private static final int NUMBER_LENGTH = 3;
@@ -10,6 +13,12 @@ public class Number {
     public Number(String value) {
         validateNumber(value);
         this.value = Integer.parseInt(value);
+    }
+
+    public Number(List<Integer> values) {
+        this(values.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining()));
     }
 
     private void validateNumber(String value) {
