@@ -8,9 +8,9 @@ public class Computer {
     private static final int END_INCLUSIVE = 9;
     private static final int COUNT = 3;
 
-    private Number number;
+    private Numbers numbers;
 
    public void generateNumber() {
-       number = new Number(Randoms.pickUniqueNumbersInRange(START_INCLUSIVE, END_INCLUSIVE, COUNT));
+       numbers = new Numbers(Randoms.pickUniqueNumbersInRange(START_INCLUSIVE, END_INCLUSIVE, COUNT));
    }
 }

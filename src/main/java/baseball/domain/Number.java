@@ -1,42 +1,43 @@
 package baseball.domain;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 public class Number {
 
-    private static final int NUMBER_LENGTH = 3;
-    private static final String NATURAL_NUMBER_REGEX = "^[1-9]+$";
-
     private final int value;
 
+    public Number(int value) {
+        validateNaturalNumber(value);
+        this.value = value;
+    }
+
     public Number(String value) {
-        validateNumber(value);
+        validateDigit(value);
         this.value = Integer.parseInt(value);
     }
 
-    public Number(List<Integer> values) {
-        this(values.stream()
-                .map(String::valueOf)
-                .collect(Collectors.joining()));
-    }
-
-    private void validateNumber(String value) {
-        if (!value.matches(NATURAL_NUMBER_REGEX) || value.length() != NUMBER_LENGTH) {
-            throw new IllegalArgumentException("0을 포함하지 않는 3자리 자연수여야 합니다.");
-        }
-
-        if (!isDistinctNumber(value)) {
-            throw new IllegalArgumentException("서로 다른 수여야 합니다.");
+    private void validateNaturalNumber(int value) {
+        if (value == 0) {
+            throw new IllegalArgumentException("숫자에 0이 있으면 안됩니다.");
         }
     }
 
-    private boolean isDistinctNumber(String value) {
-        long distinctNumberCount = value.chars()
-                .mapToObj(i -> (char) i)
-                .distinct()
-                .count();
+    private void validateDigit(String value) {
+        if (!Character.isDigit(value.charAt(0))) {
+            throw new IllegalArgumentException("숫자에 문자 값이 있으면 안됩니다.");
+        }
+    }
 
-        return distinctNumberCount == NUMBER_LENGTH;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Number number = (Number) o;
+        return value == number.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
